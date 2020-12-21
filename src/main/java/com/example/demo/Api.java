@@ -1,6 +1,5 @@
 package com.example.demo;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,30 +13,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class Api {
-    
+
     @Autowired
     private DataRepository dataRepository;
 
-     
-    
     @GetMapping
-    public List<Data> getAll()
-    {
+    public List<Data> getAll() {
         List<Data> result = this.dataRepository.findAll();
         result.sort(new UsnComparator());
         return result;
     }
 
-
     @PostMapping
-    public Data add(@RequestBody Data data)
-    {
+    public Data add(@RequestBody Data data) {
         return dataRepository.save(data);
     }
 
     @GetMapping("/student/{usn}")
-    public Data getStudent(@PathVariable String usn)
-    {
+    public Data getStudent(@PathVariable String usn) {
         return dataRepository.findByUsn(usn);
+    }
+
+    @GetMapping("/major")
+    public List<Data> customStudent() {
+        return dataRepository.major();
     }
 }
